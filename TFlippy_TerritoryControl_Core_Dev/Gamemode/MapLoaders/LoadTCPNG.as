@@ -96,7 +96,27 @@ namespace tc_colors
 		color_biome_jungle = 0xff327800,
 		color_biome_arctic = 0xff64b4ff,
 		color_biome_desert = 0xffffd364,
-		color_biome_dead = 0xff736e64
+		color_biome_dead = 0xff736e64,
+
+		blue_main_spawn        = 0xFF00FFFF, // ARGB(255,   0, 255, 255);
+		red_main_spawn         = 0xFFFF0000, // ARGB(255, 255,   0,   0);
+		green_main_spawn       = 0xFF9DCA22, // ARGB(255, 157, 202,  34);
+		purple_main_spawn      = 0xFFD379E0, // ARGB(255, 211, 121, 224);
+		orange_main_spawn      = 0xFFCD6120, // ARGB(255, 205,  97,  32);
+		aqua_main_spawn        = 0xFF2EE5A2, // ARGB(255,  46, 229, 162);
+		teal_main_spawn        = 0xFF5F84EC, // ARGB(255,  95, 132, 236);
+		gray_main_spawn        = 0xFFC4CFA1, // ARGB(255, 196, 207, 161);
+
+		blue_spawn             = 0xFF00C8C8, // ARGB(255,   0, 200, 200);
+		red_spawn              = 0xFFC80000, // ARGB(255, 200,   0,   0);
+		green_spawn            = 0xFF649B0D, // ARGB(255, 100, 155,  13);
+		purple_spawn           = 0xFF9E3ACC, // ARGB(255, 158,  58, 204);
+		orange_spawn           = 0xFF844715, // ARGB(255, 132,  71,  21);
+		aqua_spawn             = 0xFF4F9B7F, // ARGB(255,  79, 155, 127);
+		teal_spawn             = 0xFF4149F0, // ARGB(255,  65,  73, 240);
+		gray_spawn             = 0xFF97A792, // ARGB(255, 151, 167, 146);
+
+		redbarrier			   = 0xFFE43771
 	};
 }
 
@@ -210,6 +230,27 @@ class TCPNGLoader : PNGLoader
 					map.SetTile(offset, CMap::tile_biron);
 					spawnBlob(map, "lootchest", offset, -1);
 				}
+				break;
+			}
+
+			case tc_colors::blue_main_spawn:
+			{
+				spawnBlob(map, "fortress", offset, 0);
+				break;
+			}
+			case tc_colors::blue_spawn:
+			{
+				spawnBlob(map, "camp", offset, 0);
+				break;
+			}
+			case tc_colors::red_main_spawn:
+			{
+				spawnBlob(map, "fortress", offset, 1);
+				break;
+			}
+			case tc_colors::red_spawn:
+			{
+				spawnBlob(map, "camp", offset, 1);
 				break;
 			}
 

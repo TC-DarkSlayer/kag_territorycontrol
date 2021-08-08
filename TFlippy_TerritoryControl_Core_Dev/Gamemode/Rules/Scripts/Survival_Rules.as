@@ -8,8 +8,6 @@
 // #include "Knocked.as"
 #include "MakeCrate.as";
 
-#include "neutral_team_assigner.as"
-
 shared class Players
 {
 	CTFPlayerInfo@[] list;
@@ -29,31 +27,6 @@ void DrawOverlay(const string file, const SColor color = SColor(255, 255, 255, 2
 	// void GUI::DrawIcon(const string&in textureFilename, int iconFrame, Vec2f frameDimension, Vec2f pos, float scaleX, float scaleY, SColor color)
 	GUI::DrawIcon(file, 0, Vec2f(width, height), Vec2f(0, 0), 1.00f / width * s_width, 1.00f / height * s_height, color);
 }
-
-/*void onRender(CRules@ this)
-{
-	// DrawOverlay("popup_image");
-	// f32 alpha = (1.00f + Maths::Sin(getGameTime() * 0.1f)) / 2.00f;
-	// DrawOverlay("portrait1", SColor(255 * alpha, 255, 255, 255));
-}*/
-
-// void GetPersistentPlayerInfo(CRules@ this, string name, PersistentPlayerInfo@ &out info)
-// {
-	// Players@ players;
-	// this.get("players", @players);
-
-	// if (players !is null)
-	// {
-		// for (u32 i = 0; i < players.persistentList.length; i++)
-		// {
-			// if (players.persistentList[i].name == name)
-			// {
-				// @info = players.persistentList[i];
-				// return;
-			// }
-		// }
-	// }
-// }
 
 void onNewPlayerJoin(CRules@ this, CPlayer@ player)
 {
@@ -210,22 +183,12 @@ void onPlayerLeave(CRules@ this, CPlayer@ player)
 	}
 }
 
-void onPlayerRequestSpawn(CRules@ this, CPlayer@ player)
-{
-
-}
-
 void onPlayerRequestTeamChange(CRules@ this, CPlayer@ player, u8 newteam)
 {
 	if (player !is null)
 	{
 		player.server_setTeamNum(newteam);
 	}
-}
-
-void onPlayerChangedTeam(CRules@ this, CPlayer@ player, u8 oldteam, u8 newteam)
-{
-
 }
 
 void onPlayerDie(CRules@ this, CPlayer@ victim, CPlayer@ attacker, u8 customData)
@@ -252,7 +215,6 @@ void onPlayerDie(CRules@ this, CPlayer@ victim, CPlayer@ attacker, u8 customData
 
 	s32 respawn_time = 30 * 4;
 
-	if (victimTeam >= 100) respawn_time += 30 * 4;
 	if (victimTeam < 7)
 	{
 		TeamData@ team_data;
@@ -410,7 +372,7 @@ void onTick(CRules@ this)
 				if (isNeutral)
 				{
 					string playerName = player.getUsername().split('~')[0];
-					team = reserve_team(playerName);
+					team = (XORRandom(100) < 50 ? 0 : 1);
 					player.server_setTeamNum(team);
 
 					string blobType = "peasant";
@@ -464,38 +426,12 @@ void onTick(CRules@ this)
 					{
 						CBlob@[] ruins;
 						getBlobsByName("ruins", @ruins);
+						getBlobsByTag("faction_base", @ruins);
+						print("ruin"+ruins.length);
 
 						int ruins_count = 0;
 
-						for (int i = 0; i < ruins.length; i++)
-						{
-							CBlob@ b = ruins[i];
-							if (b !is null && b.get_bool("isActive")) ruins_count++;
-						}
-
-						if (ruins_count > 0)
-						{
-							f32 ruins_ratio = 1.00f - (f32(ruins_count) / f32(ruins.length));
-							f32 chicken_chance = ruins_ratio * ruins_ratio;
-
-							tcpr("[CCC] Chicken Chance: " + (chicken_chance * 100) + "%");
-
-							if (XORRandom(100) < (chicken_chance * 100))
-							{
-								if (!doChickenSpawn(player))
-								{
-									doDefaultSpawn(player, blobType, team, true);
-								}
-							}
-							else
-							{
-								doDefaultSpawn(player, blobType, team, false);
-							}
-						}
-						else
-						{
-							doChickenSpawn(player);
-						}
+						doDefaultSpawn(player, blobType, team, true);
 					}
 				}
 			}

@@ -1,7 +1,7 @@
 #ifndef __neutral_team_assigner
 #define __neutral_team_assigner
 
-const uint min_team = 100; //neutrals //getRules().getTeamsNum();
+const uint min_team = 0; // NOT ANYMORE hHAHAA neutrals //getRules().getTeamsNum();
 const uint max_team = 250; //chickens
 
 //ok let's be real
@@ -24,7 +24,7 @@ uint reserve_team(string playername) {
 	if (bindings.get("_" + playername, tmp)) team = tmp;
 	else {
 		bindings.set("_" + playername, team);
-		bindings.set("min", team + 1);
+		bindings.set("min", team);
 		// print("reserving team "+team);
 	}
 	rules.set("_neutral_team_bindings", @bindings);
