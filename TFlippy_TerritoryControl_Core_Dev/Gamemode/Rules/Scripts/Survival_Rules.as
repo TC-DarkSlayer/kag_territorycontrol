@@ -282,6 +282,61 @@ void onTick(CRules@ this)
 {
 	s32 gametime = getGameTime();
 
+	if (!this.isMatchRunning()) { return; }
+	else
+	{
+		CBlob@[] base;
+		getBlobsByTag("faction_base", @base);
+
+		int winteamIndex = -1;
+		CTFTeamInfo@ winteam = null;
+		s8 team_wins_on_end = -1;
+
+		for (uint team_num = 0; team_num < 2; ++team_num)
+		{
+			bool win = true;
+			for (uint i = 0; i < base.length; i++)
+			{
+				//if there exists an enemy flag, we didn't win yet
+				if (base[i].getTeamNum() != team_num)
+				{
+					win = false;
+					break;
+				}
+			}
+
+			if (win)
+			{
+				winteamIndex = team_num;
+				getRules().SetGlobalMessage(((team_num == 0) ? "Blue" : "Red") + " Faction Wins!");
+			}
+
+		}
+
+		this.set_s8("team_wins_on_end", team_wins_on_end);
+
+		if (winteamIndex >= 0)
+		{
+			// add winning team coins
+			if (this.isMatchRunning())
+			{
+				CBlob@[] players;
+				getBlobsByTag("player", @players);
+				for (uint i = 0; i < players.length; i++)
+				{
+					CPlayer@ player = players[i].getPlayer();
+					if (player !is null && players[i].getTeamNum() == winteamIndex)
+					{
+						player.server_setCoins(1000);
+					}
+				}
+			}
+
+			this.SetTeamWon(winteamIndex);   //game over!
+			this.SetCurrentState(GAME_OVER);
+		}
+	}
+
 	for (u8 i = 0; i < getPlayerCount(); i++)
 	{
 		CPlayer@ player = getPlayer(i);
@@ -291,148 +346,79 @@ void onTick(CRules@ this)
 			if (blob is null && player.get_u32("respawn time") <= gametime)
 			{
 				int team = player.getTeamNum();
-				bool isNeutral = team >= 100;
+				bool isNeutral = team != 1 && team != 0;
+				if (isNeutral) player.server_setTeamNum(XORRandom(100) < 50 ? 0 : 1);
 
-				// Civilized team spawning
-				if (!isNeutral)
+				
+				CBlob@[] bases;
+				getBlobsByTag("faction_base", @bases);
+				//getBlobsByTag("respawn", @bases);
+				CBlob@[] spawns;
+				int teamBases = 0;
+				bool has_bases = false;
+
+				for (uint i = 0; i < bases.length; i++)
 				{
-					CBlob@[] bases;
-					getBlobsByTag("faction_base", @bases);
-					//getBlobsByTag("respawn", @bases);
-					CBlob@[] spawns;
-					int teamBases = 0;
-					bool has_bases = false;
+					if (bases[i].getTeamNum() == team) teamBases++;
+				}
 
-					for (uint i = 0; i < bases.length; i++)
+				for (uint i = 0; i < bases.length; i++)
+				{
+					CBlob@ base = bases[i];
+					if (base !is null && base.getTeamNum() == team)
 					{
-						if (bases[i].getTeamNum() == team) teamBases++;
-					}
-
-					for (uint i = 0; i < bases.length; i++)
-					{
-						CBlob@ base = bases[i];
-						if (base !is null && base.getTeamNum() == team)
-						{
-							has_bases = true;
-							if (base.hasTag("reinforcements allowed") || teamBases == 1) spawns.push_back(base);
-						}
-					}
-
-					if (spawns.length > 0)
-					{
-						f32 distance = 100000;
-						Vec2f spawnPos = Vec2f(0, 0);
-						Vec2f deathPos = player.get_Vec2f("last death position");
-
-						u32 spawnIndex = 0;
-
-						for (u32 i = 0; i < spawns.length; i++)
-						{
-							f32 tmpDistance = Maths::Abs(spawns[i].getPosition().x - deathPos.x);
-
-							// print("Lowest: " + distance + "; Compared against: " + tmpDistance);
-
-							if (tmpDistance < distance)
-							{
-								distance = tmpDistance;
-								spawnIndex = i;
-								spawnPos = spawns[i].getPosition();
-							}
-						}
-
-						string blobType = player.get_string("classAtDeath");
-						if (blobType == "builder" || blobType == "engineer" || blobType == "hazmat" || blobType == "slave" || blobType == "peasant") blobType = "builder";
-						else if (blobType == "archer") blobType = "archer";
-						else blobType = "knight";
-
-						CBlob@ new_blob = server_CreateBlob(blobType);
-
-						if (new_blob !is null)
-						{
-							new_blob.setPosition(spawnPos);
-							new_blob.server_setTeamNum(team);
-							new_blob.server_SetPlayer(player);
-							// print("" + spawns[spawnIndex].getName());
-							// print("init " + new_blob.getHealth());
-							if (spawns[spawnIndex].getName() == "citadel")
-							{
-								new_blob.server_SetHealth(Maths::Ceil(new_blob.getInitialHealth() * 1.50f));
-								// print("after " + new_blob.getHealth());
-							}
-						}
-					}
-					else
-					{
-						if (has_bases) return; //wait until able to spawn or lost all bases
-						isNeutral = true; // In case if the player is respawning while the team has been defeated
+						has_bases = true;
+						if (base.hasTag("reinforcements allowed") || teamBases == 1) spawns.push_back(base);
 					}
 				}
 
-				// Bandit scum spawning
-				if (isNeutral)
+				if (spawns.length > 0)
 				{
-					string playerName = player.getUsername().split('~')[0];
-					team = (XORRandom(100) < 50 ? 0 : 1);
-					player.server_setTeamNum(team);
+					f32 distance = 100000;
+					Vec2f spawnPos = Vec2f(0, 0);
+					Vec2f deathPos = player.get_Vec2f("last death position");
 
-					string blobType = "peasant";
-					if (player.isBot() && player.get_string("classAtDeath") != "")
+					u32 spawnIndex = 0;
+
+					for (u32 i = 0; i < spawns.length; i++)
 					{
-						blobType = player.get_string("classAtDeath");
-					}
+						f32 tmpDistance = Maths::Abs(spawns[i].getPosition().x - deathPos.x);
 
-					if (player.getUsername() == "Mithrios")
-					{
-						blobType = "mithrios";
-					}
+						// print("Lowest: " + distance + "; Compared against: " + tmpDistance);
 
-					bool default_respawn = true;
-
-					if (player.get_u16("tavern_netid") != 0)
-					{
-						CBlob@ tavern = getBlobByNetworkID(player.get_u16("tavern_netid"));
-						const bool isTavernOwner = tavern !is null && player.getUsername() == tavern.get_string("Owner");
-
-						if (tavern !is null && tavern.getName() == "tavern" && (player.getCoins() >= 20 || isTavernOwner))
+						if (tmpDistance < distance)
 						{
-							printf("Respawning " + player.getUsername() + " at a tavern as team " + player.get_u8("tavern_team"));
-
-							CBlob@ new_blob = server_CreateBlob(blobType);
-							if (new_blob !is null)
-							{
-								if (player.exists("tavern_team") && player.get_u8("tavern_team") != 255) team = player.get_u8("tavern_team");
-
-								new_blob.setPosition(tavern.getPosition());
-								new_blob.server_setTeamNum(team);
-								new_blob.server_SetPlayer(player);
-
-								if (!isTavernOwner)
-								{
-									player.server_setCoins(player.getCoins() - 20);
-
-									CPlayer@ tavern_owner = getPlayerByUsername(tavern.get_string("Owner"));
-									if (tavern_owner !is null)
-									{
-										tavern_owner.server_setCoins(tavern_owner.getCoins() + 20);
-									}
-								}
-
-								default_respawn = false;
-							}
+							distance = tmpDistance;
+							spawnIndex = i;
+							spawnPos = spawns[i].getPosition();
 						}
 					}
 
-					if (default_respawn)
+					string blobType = player.get_string("classAtDeath");
+					if (blobType == "builder" || blobType == "engineer" || blobType == "hazmat" || blobType == "slave" || blobType == "peasant") blobType = "builder";
+					else if (blobType == "archer") blobType = "archer";
+					else blobType = "knight";
+
+					CBlob@ new_blob = server_CreateBlob(blobType);
+
+					if (new_blob !is null)
 					{
-						CBlob@[] ruins;
-						getBlobsByName("ruins", @ruins);
-						getBlobsByTag("faction_base", @ruins);
-						print("ruin"+ruins.length);
-
-						int ruins_count = 0;
-
-						doDefaultSpawn(player, blobType, team, true);
+						new_blob.setPosition(spawnPos);
+						new_blob.server_setTeamNum(team);
+						new_blob.server_SetPlayer(player);
+						// print("" + spawns[spawnIndex].getName());
+						// print("init " + new_blob.getHealth());
+						if (spawns[spawnIndex].getName() == "citadel")
+						{
+							new_blob.server_SetHealth(Maths::Ceil(new_blob.getInitialHealth() * 1.50f));
+							// print("after " + new_blob.getHealth());
+						}
 					}
+				}
+				else
+				{
+					if (has_bases) return; //wait until able to spawn or lost all bases
+					isNeutral = true; // In case if the player is respawning while the team has been defeated
 				}
 			}
 		}
