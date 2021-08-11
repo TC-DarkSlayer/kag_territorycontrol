@@ -446,7 +446,7 @@ void server_TakeRequirements(CInventory@ inv1, CInventory@ inv2, CBitStream &ino
 			}
 			if (player2 !is null) 
 			{
-				taken = quantity-taken;
+				taken = quantity - taken;
 				taken = Maths::Min(player2.getCoins(), quantity);
 				player2.server_setCoins(player2.getCoins() - taken);
 			}
