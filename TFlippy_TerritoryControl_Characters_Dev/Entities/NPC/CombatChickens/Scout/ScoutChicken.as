@@ -139,7 +139,7 @@ void onInit(CBlob@ this)
 				break;
 		}
 
-		for (int i = 0; i < 6; i++)
+		for (int i = 0; i < 2; i++)
 		{
 			CBlob@ ammo = server_CreateBlob(ammo_config, this.getTeamNum(), this.getPosition());
 			ammo.server_SetQuantity(ammo.maxQuantity);
