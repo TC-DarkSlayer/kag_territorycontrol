@@ -15,14 +15,15 @@ void onInit(CBlob@ this)
 
 	VehicleInfo@ v;
 	if (!this.get("VehicleInfo", @v)) return;
-
+	
 	Vehicle_SetupAirship(this, v, 50.0f);
 
 	this.Tag("vehicle");
 	this.Tag("heavy weight");
-
+	
 	this.getShape().SetOffset(Vec2f(0, 10));
 	this.getShape().SetRotationsAllowed(false);
+	this.getShape().getConsts().transports = true;
 
 	this.set_f32("max_fuel", 20000);
 	this.set_f32("fuel_consumption_modifier", 1.50f);
@@ -76,14 +77,15 @@ void onInit(CSprite@ this)
 	this.getCurrentScript().tickFrequency = 5;
 	
 	// should only appear when not inside 
-	CSpriteLayer@ balloon = this.addSpriteLayer("balloon", "ArmoredBomber.png", 89, 23);
+	CSpriteLayer@ balloon = this.addSpriteLayer("balloon", "zeppelinexterior.png", 89, 23);
 	if (balloon !is null)
 	{
 		balloon.addAnimation("default", 0, false);
 		int[] frames = { 0, 2, 3 };
 		balloon.animation.AddFrames(frames);
 		balloon.SetRelativeZ(1.0f);
-		balloon.SetOffset(Vec2f(0.0f, -26.0f));
+		//was 0.0, -26.0
+		balloon.SetOffset(Vec2f(9.0f, 25.0f));
 	}
 	//CSpriteLayer@ balloon = this.addSpriteLayer("balloon", "ArmoredBomber.png", 48, 64);
 	//if (balloon !is null)
@@ -142,27 +144,27 @@ void onTick(CSprite@ this)
 			balloon.animation.frame = 2;
 	}
 
-	CSpriteLayer@ burner = this.getSpriteLayer("burner");
-	if (burner !is null)
-	{
-		burner.SetOffset(Vec2f(0.0f, -14.0f));
-		s8 dir = blob.get_s8("move_direction");
-		if (dir == 0)
-		{
-			blob.SetLightColor(SColor(255, 255, 240, 171));
-			burner.SetAnimation("default");
-		}
-		else if (dir < 0)
-		{
-			blob.SetLightColor(SColor(255, 255, 240, 200));
-			burner.SetAnimation("up");
-		}
-		else if (dir > 0)
-		{
-			blob.SetLightColor(SColor(255, 255, 200, 171));
-			burner.SetAnimation("down");
-		}
-	}
+	//CSpriteLayer@ burner = this.getSpriteLayer("burner");
+	//if (burner !is null)
+	//{
+		//burner.SetOffset(Vec2f(0.0f, -14.0f));
+		//s8 dir = blob.get_s8("move_direction");
+		//if (dir == 0)
+		//{
+			//blob.SetLightColor(SColor(255, 255, 240, 171));
+			//burner.SetAnimation("default");
+		//}
+		//else if (dir < 0)
+		//{
+			//blob.SetLightColor(SColor(255, 255, 240, 200));
+			//burner.SetAnimation("up");
+		//}
+		//else if (dir > 0)
+		//{
+			//blob.SetLightColor(SColor(255, 255, 200, 171));
+			//burner.SetAnimation("down");
+		//}
+	//}
 }
 
 f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)
