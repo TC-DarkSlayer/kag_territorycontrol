@@ -417,7 +417,7 @@ bool Vehicle_canFire(CBlob@ this,VehicleInfo@ v,bool isActionPressed,bool wasAct
 }
 bool doesCollideWithBlob(CBlob@ this,CBlob@ blob)
 {
-	return Vehicle_doesCollideWithBlob_ground(this,blob) && !blob.hasTag("turret") && !blob.isAttached();
+    return Vehicle_doesCollideWithBlob_ground(this,blob) && !blob.hasTag("turret") && !blob.isAttached() || (this.getName() == "zeppelin");
 }
 bool canBePickedUp(CBlob@ this,CBlob@ byBlob)
 {

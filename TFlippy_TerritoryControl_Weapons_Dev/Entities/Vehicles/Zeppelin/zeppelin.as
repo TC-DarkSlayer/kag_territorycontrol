@@ -27,6 +27,17 @@ void onInit(CBlob@ this)
 
 	this.set_f32("max_fuel", 20000);
 	this.set_f32("fuel_consumption_modifier", 1.50f);
+	
+	{
+		//floor?
+		Vec2f[] shape = { 
+						  Vec2f(16.0f,  40.0f) - offset,
+		                  Vec2f(16.0f,  73.0f) - offset,
+		                  Vec2f(100.0f,  40.0f)- offset,
+		                  Vec2f(100.0f,  73.0f)- offset
+		                };
+		this.getShape().AddShape(shape);
+	}
 }
 
 void onDie( CBlob@ this )
@@ -60,11 +71,6 @@ bool Vehicle_canFire(CBlob@ this, VehicleInfo@ v, bool isActionPressed, bool was
 	return true;
 }
 
-bool doesCollideWithBlob(CBlob@ this, CBlob@ blob)
-{
-	return Vehicle_doesCollideWithBlob_ground(this, blob);
-}
-
 bool canBePickedUp(CBlob@ this, CBlob@ byBlob)
 {
 	return false;
@@ -87,6 +93,7 @@ void onInit(CSprite@ this)
 		//was 0.0, -26.0
 		balloon.SetOffset(Vec2f(9.0f, 25.0f));
 	}
+
 	//CSpriteLayer@ balloon = this.addSpriteLayer("balloon", "ArmoredBomber.png", 48, 64);
 	//if (balloon !is null)
 	//{
