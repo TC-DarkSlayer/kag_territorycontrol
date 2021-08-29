@@ -83,11 +83,11 @@ void onInit(CSprite@ this)
 	this.getCurrentScript().tickFrequency = 5;
 	
 	// should only appear when not inside 
-	CSpriteLayer@ balloon = this.addSpriteLayer("balloon", "zeppelinexterior.png", 89, 23);
+	CSpriteLayer@ balloon = this.addSpriteLayer("front layer", "zeppelinexterior.png", 89, 23);
 	if (balloon !is null)
 	{
 		balloon.addAnimation("default", 0, false);
-		int[] frames = { 0, 2, 3 };
+		int[] frames = { 0, 1 };
 		balloon.animation.AddFrames(frames);
 		balloon.SetRelativeZ(1.0f);
 		//was 0.0, -26.0
