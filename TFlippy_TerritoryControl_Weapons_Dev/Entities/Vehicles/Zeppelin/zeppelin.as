@@ -28,16 +28,16 @@ void onInit(CBlob@ this)
 	this.set_f32("max_fuel", 20000);
 	this.set_f32("fuel_consumption_modifier", 1.50f);
 	
-	{
+	//{
 		//floor?
-		Vec2f[] shape = { 
-						  Vec2f(16.0f,  40.0f) - offset,
-		                  Vec2f(16.0f,  73.0f) - offset,
-		                  Vec2f(100.0f,  40.0f)- offset,
-		                  Vec2f(100.0f,  73.0f)- offset
-		                };
-		this.getShape().AddShape(shape);
-	}
+		//Vec2f[] shape = { 
+						  //Vec2f(16.0f,  40.0f),
+		                  //Vec2f(16.0f,  73.0f),
+		                 // Vec2f(100.0f,  40.0f),
+		                  //Vec2f(100.0f,  73.0f)
+		                //};
+		//this.getShape().AddShape(shape);
+	//}
 }
 
 void onDie( CBlob@ this )
