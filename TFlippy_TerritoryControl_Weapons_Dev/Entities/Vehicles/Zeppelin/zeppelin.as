@@ -9,7 +9,7 @@ void onInit(CBlob@ this)
 	Vehicle_Setup(this,
 	              20.0f, // move speed
 	              0.19f,  // turn speed
-	              Vec2f(0.0f, -5.0f), // jump out velocity
+	              Vec2f(5.0f, 5.0f), // jump out velocity
 	              true  // inventory access
 	             );
 
@@ -24,6 +24,7 @@ void onInit(CBlob@ this)
 	this.getShape().SetOffset(Vec2f(0, 10));
 	this.getShape().SetRotationsAllowed(false);
 	this.getShape().getConsts().transports = true;
+	this.SetLight(false);
 
 	this.set_f32("max_fuel", 20000);
 	this.set_f32("fuel_consumption_modifier", 1.50f);
@@ -31,20 +32,30 @@ void onInit(CBlob@ this)
 	{
 		//front window shitbox
 		Vec2f[] shape = { 
-						  Vec2f(55.0f,  40.0f),
-		                  Vec2f(55.0f,  73.0f),
-		                  Vec2f(80.0f,  40.0f),
-		                  Vec2f(60.0f,  73.0f)
+						  Vec2f(80.0f,  80.0f),
+		                  Vec2f(70.0f,  110.0f),
+		                  Vec2f(90.0f,  80.0f),
+		                  Vec2f(80.0f,  110.0f)
 		                };
 		this.getShape().AddShape(shape);
 	}
 	{
-		//floor shitbox
+		//roof shitbox
 		Vec2f[] shape = { 
-						  Vec2f(-45.0f,  70.0f),
-		                  Vec2f(-45.0f,  73.0f),
-		                  Vec2f(60.0f,  70.0f),
-		                  Vec2f(55.0f,  73.0f)
+						  Vec2f(0.0f,  85.0f),
+		                  Vec2f(-40.0f,  65.0f),
+		                  Vec2f(80.0f,  85.0f),
+		                  Vec2f(125.0f,  65.0f)
+		                };
+		this.getShape().AddShape(shape);
+	}
+	{
+		//roof shitbox redux
+		Vec2f[] shape = { 
+						  Vec2f(-40.0f,  65.0f),
+		                  Vec2f(0.0f,  45.0f),
+		                  Vec2f(125.0f,  65.0f),
+		                  Vec2f(85.0f,  45.0f)
 		                };
 		this.getShape().AddShape(shape);
 	}
@@ -93,57 +104,26 @@ void onInit(CSprite@ this)
 	this.getCurrentScript().tickFrequency = 5;
 	
 	// should only appear when not inside 
-	CSpriteLayer@ balloon = this.addSpriteLayer("front layer", "zeppelinexterior.png", 89, 23);
+	CSpriteLayer@ hull = this.addSpriteLayer("front layer", "zeppelinexterior.png", 89, 23);
+	if (hull !is null)
+	{
+		hull.addAnimation("default", 0, false);
+		int[] frames = { 0, 1 };
+		hull.animation.AddFrames(frames);
+		hull.SetRelativeZ(200.0f);
+		//was 0.0, -26.0
+		hull.SetOffset(Vec2f(-13.0f, -5.0f));
+	}
+
+	CSpriteLayer@ balloon = this.addSpriteLayer("balloon", "zeppelinballoon.png", 181, 46);
 	if (balloon !is null)
 	{
 		balloon.addAnimation("default", 0, false);
-		int[] frames = { 0, 1 };
+		int[] frames = { 0 };
 		balloon.animation.AddFrames(frames);
 		balloon.SetRelativeZ(1.0f);
-		//was 0.0, -26.0
-		balloon.SetOffset(Vec2f(9.0f, 25.0f));
+		balloon.SetOffset(Vec2f(-20.0f, -35.0f));
 	}
-
-	//CSpriteLayer@ balloon = this.addSpriteLayer("balloon", "ArmoredBomber.png", 48, 64);
-	//if (balloon !is null)
-	//{
-		//balloon.addAnimation("default", 0, false);
-		//int[] frames = { 0, 2, 3 };
-		//balloon.animation.AddFrames(frames);
-		//balloon.SetRelativeZ(1.0f);
-		//balloon.SetOffset(Vec2f(0.0f, -26.0f));
-	//}
-
-	//CSpriteLayer@ background = this.addSpriteLayer("background", "ArmoredBomber.png", 32, 16);
-	//if (background !is null)
-	//{
-		//background.addAnimation("default", 0, false);
-		//background.animation.AddFrame(3);
-		//background.SetRelativeZ(-5.0f);
-		//background.SetOffset(Vec2f(0.0f, -5.0f));
-	//}
-
-	//CSpriteLayer@ burner = this.addSpriteLayer("burner", "ArmoredBomber.png", 8, 16);
-	//if (burner !is null)
-	//{
-		//{
-			//Animation@ a = burner.addAnimation("default", 3, true);
-			//int[] frames = { 41, 42, 43 };
-			//a.AddFrames(frames);
-		//}
-		//{
-			//Animation@ a = burner.addAnimation("up", 3, true);
-			//int[] frames = { 38, 39, 40 };
-			//a.AddFrames(frames);
-		//}
-		//{
-			//Animation@ a = burner.addAnimation("down", 3, true);
-			//int[] frames = { 44, 45, 44, 46 };
-			//a.AddFrames(frames);
-		//}
-		//burner.SetRelativeZ(1.5f);
-		//burner.SetOffset(Vec2f(0.0f, -26.0f));
-	//}
 }
 
 void onTick(CSprite@ this)
@@ -160,28 +140,6 @@ void onTick(CSprite@ this)
 		else
 			balloon.animation.frame = 2;
 	}
-
-	//CSpriteLayer@ burner = this.getSpriteLayer("burner");
-	//if (burner !is null)
-	//{
-		//burner.SetOffset(Vec2f(0.0f, -14.0f));
-		//s8 dir = blob.get_s8("move_direction");
-		//if (dir == 0)
-		//{
-			//blob.SetLightColor(SColor(255, 255, 240, 171));
-			//burner.SetAnimation("default");
-		//}
-		//else if (dir < 0)
-		//{
-			//blob.SetLightColor(SColor(255, 255, 240, 200));
-			//burner.SetAnimation("up");
-		//}
-		//else if (dir > 0)
-		//{
-			//blob.SetLightColor(SColor(255, 255, 200, 171));
-			//burner.SetAnimation("down");
-		//}
-	//}
 }
 
 f32 onHit(CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData)

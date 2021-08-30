@@ -24,7 +24,7 @@ void onTick(CSprite@ this)
 			if (local !is null)
 			{
 				f32 length = (local.getPosition() - blob.getPosition()).Length();
-				f32 popdistance = visible ? 50 : 50;
+				f32 popdistance = visible ? 40 : 40;
 				if (visible)
 				{
 					if (length < popdistance)
