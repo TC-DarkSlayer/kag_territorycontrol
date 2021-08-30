@@ -7,7 +7,7 @@
 void onInit(CBlob@ this)
 {
 	Vehicle_Setup(this,
-	              20.0f, // move speed
+	              25.0f, // move speed
 	              0.19f,  // turn speed
 	              Vec2f(5.0f, 5.0f), // jump out velocity
 	              true  // inventory access
