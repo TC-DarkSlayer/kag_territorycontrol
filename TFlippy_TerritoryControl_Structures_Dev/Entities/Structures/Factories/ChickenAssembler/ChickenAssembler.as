@@ -75,9 +75,10 @@ void onInit(CBlob@ this)
 		items.push_back(i);
 	}
 	{
-		AssemblerItem i("mat_sammissile", 4, "SAM Missile (4)");
-		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 8);
+		AssemblerItem i("mat_sammissile", 6, "SAM Missile (6)");
+		AddRequirement(i.reqs, "blob", "mat_ironingot", "Iron Ingot", 6);
 		AddRequirement(i.reqs, "blob", "mat_methane", "Methane", 50);
+		AddRequirement(i.reqs, "blob", "mat_sulphur", "Sulphur", 50);
 		items.push_back(i);
 	}
 	{

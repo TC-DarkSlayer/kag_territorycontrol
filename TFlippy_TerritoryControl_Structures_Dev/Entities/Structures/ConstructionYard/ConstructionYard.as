@@ -30,7 +30,7 @@ void onInit(CBlob@ this)
 
 	// SHOP
 	this.set_Vec2f("shop offset", Vec2f(0, 8));
-	this.set_Vec2f("shop menu size", Vec2f(12, 8));
+	this.set_Vec2f("shop menu size", Vec2f(12, 10));
 	this.set_string("shop description", "Buy");
 	this.set_u8("shop icon", 25);
 
@@ -208,6 +208,41 @@ void onInit(CBlob@ this)
 		s.crate_icon = 0;
 		s.customButton = true;
 		s.buttonwidth = 4;
+		s.buttonheight = 2;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Helichopper", "$helichopper$", "helichopper", "$helichopper$\n\n\n\n\n" + "A fast flying aerial vehicle used for annhilation and pursuit.\n\n[W]/[S] for vertical throttle, [A]/[D] for horizontal throttle.", false, true);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 70);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 30);
+		AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper Wire", 20);
+		AddRequirement(s.requirements, "coin", "", "Coins", 1750);
+
+		s.crate_icon = 0;
+		s.customButton = true;
+		s.buttonwidth = 4;
+		s.buttonheight = 2;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Car", "$car$", "car", "$car$\n\n\n\n\n" + "A fast car used for racing and drifting.", false, true);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 10);
+		AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper Wire", 10);
+		AddRequirement(s.requirements, "coin", "", "Coins", 175);
+
+		s.crate_icon = 0;
+		s.customButton = true;
+		s.buttonwidth = 2;
+		s.buttonheight = 2;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Armored Car", "$armoredcar$", "armoredcar", "$armoredcar$\n\n\n\n\n" + "A fast tank.", false, true);
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 15);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 10);
+		AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper Wire", 10);
+		AddRequirement(s.requirements, "coin", "", "Coins", 375);
+
+		s.crate_icon = 0;
+		s.customButton = true;
+		s.buttonwidth = 2;
 		s.buttonheight = 2;
 	}
 }

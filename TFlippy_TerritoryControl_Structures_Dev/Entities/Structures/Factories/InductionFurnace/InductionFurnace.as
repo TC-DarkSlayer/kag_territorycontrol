@@ -10,28 +10,32 @@ const string[] matNames = {
 	"mat_copper",
 	"mat_iron",
 	"mat_gold",
-	"mat_ironingot"
+	"mat_ironingot",
+	"mat_wood"
 };
 
 const string[] matNamesResult = { 
 	"mat_copperingot",
 	"mat_ironingot",
 	"mat_goldingot",
-	"mat_steelingot"
+	"mat_steelingot",
+	"mat_coal"
 };
 
 const int[] matRatio = { 
 	10,
 	10,
 	25,
-	6
+	6,
+	20
 };
 
 const int[] coalRatio = {
-	2,
-	2,
-	3,
-	4
+	0,
+	0,
+	0,
+	4,
+	0
 };
 
 void onInit(CBlob@ this)

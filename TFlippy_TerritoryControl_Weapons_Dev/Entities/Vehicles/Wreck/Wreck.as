@@ -46,24 +46,24 @@ void onInit(CBlob@ this)
 			@s = addShopItem(this, "Repair", "$icon_repair$", "helichopper", "Repair this badly damaged vehicle.");	
 			
 			AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 20);
-			AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 50);
-			AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper Wire", 30);
+			AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 25);
+			AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper Wire", 20);
 			AddRequirement(s.requirements, "coin", "", "Coins", 1000);
 		}
 		else if (configName == "carwreck")
 		{
 			@s = addShopItem(this, "Repair", "$icon_repair$", "car", "Repair this badly damaged vehicle.");	
 			
-			AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 10);
+			AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 5);
 			AddRequirement(s.requirements, "coin", "", "Coins", 250);
 		}
 		else if (configName == "armoredcarwreck")
 		{
 			@s = addShopItem(this, "Repair", "$icon_repair$", "armoredcar", "Repair this badly damaged vehicle.");	
 			
-			AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 10);
-			AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 20);
-			AddRequirement(s.requirements, "coin", "", "Coins", 750);
+			AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 5);
+			AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 10);
+			AddRequirement(s.requirements, "coin", "", "Coins", 250);
 		}
 		else if (configName == "armoredbomberwreck")
 		{
