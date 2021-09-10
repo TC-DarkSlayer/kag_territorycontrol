@@ -56,7 +56,7 @@ void onInit(CBlob@ this)
 	}
 	{
 		ShopItem@ s = addShopItem(this, "Steam Tank", "$icon_steamtank$", "steamtank", "$icon_steamtank$\n\n\n" + "An armored land vehicle. Comes with a powerful cannon and a durable ram.", false, true);
-		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 10);
+		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 20);
 		AddRequirement(s.requirements, "blob", "mat_wood", "Wood", 100);
 		AddRequirement(s.requirements, "coin", "", "Coins", 125);
 
@@ -223,10 +223,10 @@ void onInit(CBlob@ this)
 		s.buttonheight = 2;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Car", "$car$", "car", "$car$\n\n\n\n\n" + "A fast car used for racing and drifting.", false, true);
+		ShopItem@ s = addShopItem(this, "Car", "$icon_car$", "car", "$icon_car$\n\n\n\n\n" + "A fast car used for racing and drifting.", false, true);
 		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 10);
 		AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper Wire", 10);
-		AddRequirement(s.requirements, "coin", "", "Coins", 175);
+		AddRequirement(s.requirements, "coin", "", "Coins", 125);
 
 		s.crate_icon = 0;
 		s.customButton = true;
@@ -234,11 +234,33 @@ void onInit(CBlob@ this)
 		s.buttonheight = 2;
 	}
 	{
-		ShopItem@ s = addShopItem(this, "Armored Car", "$armoredcar$", "armoredcar", "$armoredcar$\n\n\n\n\n" + "A fast tank.", false, true);
+		ShopItem@ s = addShopItem(this, "Armored Car", "$icon_armoredcar$", "armoredcar", "$icon_armoredcar$\n\n\n\n\n" + "A light armored vehicle equipped with a tank cannon.", false, true);
 		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 15);
 		AddRequirement(s.requirements, "blob", "mat_ironingot", "Iron Ingot", 10);
 		AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper Wire", 10);
-		AddRequirement(s.requirements, "coin", "", "Coins", 375);
+		AddRequirement(s.requirements, "coin", "", "Coins", 2999);
+
+		s.crate_icon = 0;
+		s.customButton = true;
+		s.buttonwidth = 2;
+		s.buttonheight = 2;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Peacekeeper", "$icon_sentry$", "sentry-400", "A small sentry gun that uses Machine Gun ammo. Automatically operated.");
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 15);
+		AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper Wire", 20);
+		AddRequirement(s.requirements, "coin", "", "Coins", 1999);
+
+		s.crate_icon = 0;
+		s.customButton = true;
+		s.buttonwidth = 2;
+		s.buttonheight = 2;
+	}
+	{
+		ShopItem@ s = addShopItem(this, "Zapper", "$icon_zapper$", "zapper-260", "Place this small device in your garden and watch the intruders get fried to crisp!\nRequires Batteries to operate.");
+		AddRequirement(s.requirements, "blob", "mat_steelingot", "Steel Ingot", 10);
+		AddRequirement(s.requirements, "blob", "mat_copperwire", "Copper Wire", 20);
+		AddRequirement(s.requirements, "coin", "", "Coins", 999);
 
 		s.crate_icon = 0;
 		s.customButton = true;
@@ -271,6 +293,10 @@ void addTokens(CBlob@ this)
 	AddIconToken("$icon_rocketlauncher$", "Icon_Vehicles.png", Vec2f(24, 24), 5, teamnum);
 	AddIconToken("$icon_cargocontainer$", "CargoContainer.png", Vec2f(64, 24), 0, teamnum);
 	AddIconToken("$icon_minicopter$", "minicopter_icon.png", Vec2f(64, 32), 0, teamnum);
+	AddIconToken("$icon_car$", "Car.png", Vec2f(44, 24), 0, teamnum);
+	AddIconToken("$icon_armoredcar$", "ArmoredCar_Icon.png", Vec2f(48, 32), 0, teamnum);
+	AddIconToken("$icon_sentry$", "Sentry_Icon.png", Vec2f(32, 24), 0, teamnum);
+	AddIconToken("$icon_zapper$", "Zapper.png", Vec2f(24, 24), 0, teamnum);
 }
 
 void GetButtonsFor(CBlob@ this, CBlob@ caller)

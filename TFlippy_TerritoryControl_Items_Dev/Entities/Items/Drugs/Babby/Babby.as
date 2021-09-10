@@ -22,7 +22,7 @@ void onCommand(CBlob@ this, u8 cmd, CBitStream @params)
 		if (caller !is null)
 		{
 			if (!caller.hasScript("Babbyed.as")) caller.AddScript("Babbyed.as");
-			caller.set_f32("babbyed", 5);
+			caller.set_f32("babbyed", 3);
 			
 			if (isServer())
 			{

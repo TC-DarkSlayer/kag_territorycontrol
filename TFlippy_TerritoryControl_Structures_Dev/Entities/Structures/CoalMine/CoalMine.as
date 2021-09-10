@@ -26,7 +26,7 @@ const u8[] resourceYields =
 	45,
 	20,
 	7,
-	15
+	30
 };
 
 void onInit(CBlob@ this)
@@ -60,7 +60,7 @@ void onInit(CBlob@ this)
 	this.set_u8("shop icon", 25);
 
 	{
-		ShopItem@ s = addShopItem(this, "Buy Dirt (250)", "$mat_dirt$", "mat_dirt-100", "Buy 100 Dirt for 100 coins.");
+		ShopItem@ s = addShopItem(this, "Buy Dirt (250)", "$mat_dirt$", "mat_dirt-250", "Buy 250 Dirt for 125 coins.");
 		AddRequirement(s.requirements, "coin", "", "Coins", 125);
 		s.spawnNothing = true;
 	}

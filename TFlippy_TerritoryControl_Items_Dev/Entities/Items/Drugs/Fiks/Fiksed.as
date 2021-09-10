@@ -21,7 +21,7 @@ void onTick(CBlob@ this)
 	{
 		if (this.getTickSinceCreated() % 6 == 0)
 		{
-			f32 maxHealth = this.getInitialHealth() * 1.5f;
+			f32 maxHealth = this.getInitialHealth() * 2.0f;
 			if (this.getHealth() < maxHealth)
 			{
 				if (isServer())
