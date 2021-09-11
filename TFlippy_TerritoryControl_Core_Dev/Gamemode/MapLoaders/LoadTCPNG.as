@@ -194,14 +194,14 @@ class TCPNGLoader : PNGLoader
 
 			case tc_colors::color_badgerden:
 			{
-				spawnBlob(map, "badgerden", offset, -1);
+				spawnBlob(map, "badger", offset, -1);
 				break;
 			}
 
 			case tc_colors::color_chickencoop:
 			{
 				autotile(offset);
-				spawnBlob(map, "chickencoop", offset, -1);
+				spawnBlob(map, "hobo", offset, -1);
 				break;
 			}
 			case tc_colors::color_chickencamp:
@@ -238,7 +238,7 @@ class TCPNGLoader : PNGLoader
 			case tc_colors::color_scoutchicken:
 			{
 				autotile(offset);
-				CBlob@ blob = spawnBlob(map, "scoutchicken", offset, -1);
+				CBlob@ blob = spawnBlob(map, "hobo", offset, -1);
 				blob.set_bool("raider", XORRandom(100) < 50);
 				break;
 			}
@@ -297,7 +297,7 @@ class TCPNGLoader : PNGLoader
 
 			case tc_colors::color_ruin:
 			{
-				spawnBlob(map, "ruins", offset, -1);
+				spawnBlob(map, "hobo", offset, -1);
 				break;
 			}
 			case tc_colors::color_ivy:
@@ -375,7 +375,7 @@ class TCPNGLoader : PNGLoader
 			case tc_colors::color_irondoor_chicken:
 			{
 				map.SetTile(offset, CMap::tile_biron);
-				spawnBlob(map, "iron_door", offset, 250, true);
+				spawnBlob(map, "iron_door", offset, -1, true);
 				break;
 			}
 			case tc_colors::color_plasteel:
